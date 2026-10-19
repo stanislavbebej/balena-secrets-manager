@@ -1,0 +1,24 @@
+version: '2'
+
+volumes:
+  secrets:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      o: size=1M
+      device: tmpfs
+
+services:
+  secrets-manager:
+    build: .
+    environment:
+      SECRETS_YML: |
+        summon.files:
+          - path: /secrets/default.json
+            format: json
+            overwrite: true
+            secrets:
+              DUMMY_PLAINTEXT: "https://github.com/stanislavbebej-ext43345/summon-secrets-manager/tree/main"
+              DUMMY_SECRET: !var acd2d25f-1fd2-4604-9a6e-b2a600f71a31
+    volumes:
+      - secrets:/secrets
