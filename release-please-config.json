@@ -4,7 +4,11 @@
             "changelog-path": "CHANGELOG.md",
             "release-type": "simple",
             "extra-files": [
-                "balena.yml"
+                {
+                    "type": "yaml",
+                    "path": "balena.yml",
+                    "jsonpath": "$.version"
+                }
             ]
         }
     },
