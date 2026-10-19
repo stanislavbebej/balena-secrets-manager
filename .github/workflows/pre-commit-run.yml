@@ -1,0 +1,19 @@
+name: Pre-commit run
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches-ignore:
+      - pre-commit-run/**
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  run:
+    name: Pre-commit check
+    uses: stanislavbebej/balena/.github/workflows/pre-commit-run.yml@2c61ae9cd549913d40515938d0662de76f2bb450
