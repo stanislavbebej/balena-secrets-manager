@@ -7,15 +7,17 @@ assets:
   repository:
     type: blob.asset
     data:
-      url: 'https://github.com/stanislavbebej/balena-secrets-manager'
+      url: "https://github.com/stanislavbebej/balena-secrets-manager"
   logo:
     type: blob.asset
     data:
       url: >-
         https://raw.githubusercontent.com/stanislavbebej/balena-secrets-manager/main/logo.png
 data:
+  applicationEnvironmentVariables:
+    - ROTATION_PERIOD: 1d
   defaultDeviceType: raspberrypi3-64
   supportedDeviceTypes:
-    - raspberry-pi
+    - generic-aarch64
     - raspberrypi4-64
     - raspberrypi5
