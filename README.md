@@ -4,13 +4,15 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](.pre-commit-config.yaml)
 [![release-please](https://img.shields.io/badge/release--please-enabled-brightgreen?logo=google)](.github/workflows/release-please.yml)
 
+[![balena deploy button](https://www.balena.io/deploy.svg)](https://dashboard.balena-cloud.com/deploy?repoUrl=https://github.com/stanislavbebej/balena-secrets-manager)
+
 # Secrets Manager
 
 A balena block for centrally managing secrets across services in a fleet.
 
 Balena does not provide a native secrets store outside of environment variables at the fleet or device level. If you want your services to use a central secrets vault, you typically have to implement retrieval logic into each service.
 
-This block uses CyberArk [summon](https://github.com/cyberark/summon) with the [summon-secrets-manager](https://github.com/stanislavbebej-ext43345/summon-secrets-manager) provider to retrieve secrets from [Bitwarden Secrets Manager](https://bitwarden.com/help/secrets-manager-overview/) (BSM) and store them in a shared in-memory volume as files. You manage secrets in BSM, grant access to a machine account, and use its access token to retrieve them in balena. This lets you store only one token as an environment variable and automatically get updated values when rotated in BSM.
+This block uses CyberArk [summon](https://github.com/cyberark/summon) with the [summon-secrets-manager](https://github.com/stanislavbebej-ext43345/summon-secrets-manager) provider to retrieve secrets from [Bitwarden Secrets Manager](https://bitwarden.com/help/secrets-manager-overview/) (BWS) and store them in a shared in-memory volume as files. You manage secrets in BWS, grant access to a machine account, and use its access token to retrieve them in balena. This lets you store only one token as an environment variable and automatically get updated values when rotated in BWS.
 
 > **Note**: This block currently targets **ARM64 / aarch64** devices (e.g., Raspberry Pi 3/4/5 64-bit, generic aarch64).
 
@@ -41,7 +43,7 @@ services:
             overwrite: true
             permissions: 0640
             secrets:
-              DUMMY_SECRET: !var acd2d25f-1fd2-4604-9a6e-b2a600f71a31 # secret ID from BSM
+              DUMMY_SECRET: !var acd2d25f-1fd2-4604-9a6e-b2a600f71a31 # secret ID from BWS
     volumes:
       - secrets:/secrets
 
@@ -58,7 +60,7 @@ services:
 ### Steps
 
 1. **Configure `BWS_ACCESS_TOKEN`**:
-   In balenaCloud, create a **Service Variable** named [`BWS_ACCESS_TOKEN`](https://github.com/stanislavbebej-ext43345/summon-secrets-manager#usage) scoped specifically to `secrets-manager` with the machine identity access token from BSM. Scoping this to `secrets-manager` ensures other services cannot read the access token directly.
+   In balenaCloud, create a **Service Variable** named [`BWS_ACCESS_TOKEN`](https://github.com/stanislavbebej-ext43345/summon-secrets-manager#usage) scoped specifically to `secrets-manager` with the machine identity access token from BWS. Scoping this to `secrets-manager` ensures other services cannot read the access token directly.
 
 2. **Define `SECRETS_YML`**:
    Define the files and secret IDs that summon should retrieve. See the [summon push-to-file documentation](https://github.com/cyberark/summon#push-to-file) for syntax and supported formats (`json`, `yaml`, `env`).
