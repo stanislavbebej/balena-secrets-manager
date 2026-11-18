@@ -1,6 +1,6 @@
 name: secrets-manager
 type: sw.application
-version: 1.0.1
+version: 1.0.2
 description: >-
   A Balena Cloud block for centrally managing secrets across services in a
   fleet.
